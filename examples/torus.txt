@@ -1,0 +1,157 @@
+// Scene file for Ray Tracer
+
+light {
+	lamp {
+		colour 2000 2000 2000
+		position -10.00 10.000 10.0000
+		size 3
+	}
+
+}
+
+thing {
+	
+	
+	constructive_solid_geometry {
+		left {
+			cylinder { // long
+				end_1 1 0 0
+				end_2 -1 0 0
+				radius 0.18
+			}
+		}
+		right {
+			torus { // 1
+				position 0 0 0
+				direction 1 0 0
+				major 0.18
+				minor 0.1
+			}
+		}
+		type C
+		material {
+			reflection 0.5
+			refraction 0.0
+			scattering 0.5
+			translusans 1
+			refractive_index 1
+			colour 0 0.2 0.5529
+		}
+	}
+		
+}
+
+// Testar kommentarer: det fungerar.
+
+// Camera: projection = 1 -> projection on a sphere surfase
+// Camera: projection != 1 -> projection on cartestian coodinate system
+
+camera {
+	position 0 6 0
+	centre 0 0 0
+	up 0 0 10
+	projection 1
+	angle_x 20
+	angle_y 20
+}
+picture_size {
+	x_max 300
+	y_max 300
+}
+
+end
+
+	
+	constructive_solid_geometry {
+		left {
+			cylinder { // long
+				end_1 1 0 0
+				end_2 -1 0 0
+				radius 0.18
+			}
+		}
+		right {
+			torus { // 1
+				position 0 0 0
+				direction 1 0 0
+				major 0.18
+				minor 0.1
+			}
+		}
+		type C
+		material {
+			reflection 0.0
+			refraction 0.0
+			scattering 1.0
+			translusans 1
+			refractive_index 1
+			colour 0 0.2 0.5529
+		}
+	}
+
+	torus { // 1
+		material {
+			reflection 0.0
+			refraction 0.0
+			scattering 1
+			translusans 1
+			refractive_index 1
+			colour 0 0.2 0.5529
+		}
+		position 0 0 0
+		minor 0.1
+		major 0.2
+		direction 0 0 1
+	}
+
+special_thing {
+	chess_plane {
+		material 1 {
+			reflection 0.5
+			refraction 0.0
+			scattering 0.5
+			translusans 0.0
+			refractive_index 0.0 // Obs måste ha understreck mellan orden
+			colour 0.8824 0.0549 0.2863
+		}
+		material 2 {
+			reflection 0.9
+			refraction 0.0
+			scattering 0.1
+			translusans 0.0
+			refractive_index 0.0 // Obs måste ha understreck mellan orden
+			colour 0.6039 0.6078 0.6118
+		}
+		point 1 0 0 -0.3
+		point 2 0.1 0.1 -0.3
+		point 3 0.1 -0.1 -0.3
+		point 4 10 0 0
+	}
+}
+
+	sphere { // 1
+		material {
+			reflection 0.0
+			refraction 0.0
+			scattering 1
+			translusans 1
+			refractive_index 1
+			colour 0 0.2 0.5529
+		}
+		position 0 0 0.7
+		radius 0.3
+	}
+	torus { // 1
+		material {
+			reflection 0.5
+			refraction 0.0
+			scattering 0.5
+			translusans 1
+			refractive_index 1
+			colour 0 0.2 0.5529
+		}
+		position 0 0 0
+		minor 0.1
+		major 0.2
+		direction 0 0 1
+	}

@@ -1,0 +1,173 @@
+
+\section{Detailed Instructions for Writing a Scene File \label{a:scene} \label{fileReading}}
+
+All the parameters of the picture are defined in a so-called scene file. That means that all information about the objects, the lights, the camera and the picture size should be found there, structured in a certain way.
+
+The scene file is divided into main sections, called \texttt{thing}, \texttt{special\_thing}, \texttt{light}, \texttt{camera} and \texttt{picture\_size}, containing information about the respective subjects. All sections are defined using curly brackets \texttt{\{ \}}. The brackets must not touch the other words meaning there must always be at least a white space between the other words and the brackets. The order of the sections or the order of the information within the sections are not important.
+
+Indentation does not matter, but is advisable for clarity. Everything should be in lowercase, except the type parameter in constructive solid geometry. Commenting is possible, and it is done by writing \texttt{//} before the comment. As in C++, the rest of the line after the \texttt{//} will be ignored. There is a difference though; here it is compulsory to have a white space between the \texttt{//} and the text. 
+
+In the \texttt{thing} section, an unlimited amout of objects can be declared. Each new sections starts with the name of the type of object: \texttt{sphere}, \texttt{tetrahedron}, \texttt{cylinder} or \texttt{constructive\_solid\_geometry}. So far the thing section would look like this:
+
+\begin{verbatim}
+thing {
+     sphere {
+     }
+     sphere {
+     }
+     tetrahedron {
+     }
+     cylinder {
+     }
+     constructive_solid_geometry {
+     }
+}
+\end{verbatim}
+
+A sphere must have a position, a radius and a material section containing the material values and the colour. All values are defined by writing first the name of the value, then the value itself, e.g. \texttt{radius 3.5}. Position and colour, which have several values, are also defined on one line: position in the form \texttt{position x y z} and colour by \texttt{colour r g b}.
+
+The material section should have the \texttt{reflection}, \texttt{refraction}, \texttt{scattering}, \texttt{translusans}, refractive index (written together: \texttt{refractive\_index}) and the \texttt{colour}. Note that in order the be realistic, the values for reflection, refraction and scattering need to add up to 1.0. Unless they are all given as 0, the program will make sure this law is fulfilled. All the values in the material section should be in the interval [0, 1]. The only exception are the colour values for lamps, which can be significantly bigger.
+
+The \texttt{sphere} section will then look like this:
+
+\begin{verbatim}
+sphere {
+     material {
+         reflection 0.2
+         refraction 0.6
+         scattering 0.2
+         translusans 0.5
+         refractive_index 0.2
+         colour 0.1 0.9 1
+     }
+     position 1 2 1
+     radius 1.5
+}
+\end{verbatim}
+
+For tetrahedrons, the material is defined the same way as for the sphere, but the position and size are defined by giving the coordinates of the shape's corners in space. The \texttt{tetrahedron} section would thus look like this: 
+
+\begin{verbatim}
+tetrahedron {
+    material {
+      ...
+    }
+    vect1 1 2 3
+    vect2 2 3.5 3
+    vect3 3 2 3.3
+    vect4 4 2 3
+}
+\end{verbatim}
+
+Cylinders are made the same way. They are created with \texttt{cylinder} and their parameters are \texttt{end\_1} and \texttt{end\_1} for the ends and \texttt{radius}. eg:
+
+\begin{verbatim}
+cylinder {
+    material {
+      ...
+    }
+    end_1 14 -1 0
+    end_2 0 1 0
+    radius 1
+}
+\end{verbatim}
+
+Constructive solid geometry is a little more complicated. In this program, the CSGs are always made up of two SimpleThings, i.e. spheres, tetrahedrons or even other CSGs. The type of interaction between the Things is defined as union (\texttt{U}), intersection (\texttt{I}) or complement (\texttt{C}). CSGs also need a material. The Things are called \texttt{left} and \texttt{right}, but the names have no significance. Note: it is up to the user to make sure the two parts of the CSG intersect.
+
+The \texttt{constructive\_solid\_geometry} section will have a \texttt{left} and a \texttt{right} section. These will include a Thing definition. Material definitions for left and right are not needed and can be left out. The \texttt{constructive\_solid\_geometry} section will then look like this:
+
+\begin{verbatim}
+constructive_solid_geometry {
+    left {
+        sphere {
+            position 2 2 1
+            radius 1
+        }
+    }
+    right {
+        constructive_solid_geometry {
+            left {
+                sphere {
+                    position 1 2 1
+                    radius 1.5
+                }
+            }
+            right {
+                sphere {
+                    position 2 2 2
+                    radius 1
+                }
+            }
+            type U
+        }
+    }
+    material {
+        ...
+    }
+    type I
+}
+\end{verbatim}
+
+The \texttt{special\_thing} environment have thing which can not be used in a \texttt{constructive\_solid\_geometry}.
+
+\texttt{plane} is a infinite plane. It is constructed from three points in the plan and one (nr. 4) the shows which site is the top of the plane. The plane should always have its top towards the camera, so a good practice is the use the cameras position as the fourth point. Using transparent surfaces is not recommended, since the plane is only onesided. Example of plane construction:
+
+\begin{verbatim}
+special_thing {
+     plane {
+         mateial {
+             ...
+         }
+         point 1 1 2 3
+         point 2 3 2 1
+         point 3 1 1 0
+         point 4 0 0 0
+     }
+}
+\end{verbatim}
+
+The \texttt{light} section works the same way as the Thing section; all the Light objects are defined there for each type (\texttt{lamp} or \texttt{spotlight}). As explained before, the difference between the two types of Light is that \texttt{spotlight} is a point light, it is only just the light source, whereas \texttt{lamp} has a sphere around the light source to give it a more natural look.
+
+Spotlights are defined by simply giving the colour and the position. For lamps, the size of the sphere is also given. Remember that for lights the colour values can be much greater than 1. The \texttt{light} section will then look something like this:
+
+\begin{verbatim}
+light {
+    lamp {
+        colour 200 300 200
+        position 3 4.5 6
+        size 1
+    }
+    lamp {
+        colour 180 30 150
+        position 1 2.5 6
+        size 3
+    }
+    spotlight {
+        colour 100 200 250
+        position 1 3.5 6
+    }
+}
+\end{verbatim}
+
+Everything related to the camera is described in the \texttt{camera} section. The camera is defined by its position, which direction it shoots at, which direction is up, how wide is the angle of the shoot, and what type of projection is it. The angles are given in degrees in x and y directions, and the type of  projection is given as a character: 1 means a polar coordinate system, anything else mean a cartesian coordinate system. The \texttt{camera} section does not have running numbers, and looks for instance like this:
+
+\begin{verbatim}
+camera {
+    position 2.05 3.10 4.2
+    centre 0.0000 2.1 4.5
+    up 3.2000 9.5 3.3
+    projection i
+    angle_x 45.0
+    angle_y 90
+}
+\end{verbatim}
+
+The last part of the scene file is the picture size. It is in its own section, like everything else, and is quite simple:
+
+\begin{verbatim}
+picture_size {
+    x_max 1500
+    y_max 1000
+}
+\end{verbatim}
+The scene file must end with the word \texttt{end}.

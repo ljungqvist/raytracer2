@@ -1,0 +1,76 @@
+// Scene file for Ray Tracer
+
+light {
+	spotlight {
+		colour 1000 1000 1000
+		position -10.0000 10.000 10.0000
+	}
+
+}
+
+thing {
+	
+	
+	constructive_solid_geometry {
+		left {
+			sphere {
+				position 7 0 0
+				radius 1.7
+			}
+			
+		} // end of left
+		right {
+			cylinder {
+				end_1 14 -1 0
+				end_2 0 1 0
+				radius 1
+			}	
+		} // end of right
+		material {
+			reflection 0.4
+			refraction 0.0
+			scattering 0.6
+			translusans 0.0
+			refractive_index 0.0 // Obs måste ha understreck mellan orden
+			colour 1 1 1
+		}
+		type C // 'U': union (default), 'I': intersection, 'C': complement
+	} // end of csg 2
+}
+
+special_thing {
+	plane {
+		material {
+			reflection 0.4
+			refraction 0.0
+			scattering 0.6
+			translusans 0.0
+			refractive_index 0.0 // Obs måste ha understreck mellan orden
+			colour 1 0 0
+		}
+		point 1  0 0 -2
+		point 2  0 1 -2
+		point 3  1 0 -2
+		point 4 0 0 0
+	}
+}
+
+// Testar kommentarer: det fungerar.
+
+// Camera: projection = 1 -> projection on a sphere surfase
+// Camera: projection != 1 -> projection on cartestian coodinate system
+
+camera {
+	position -3 0 0
+	centre 1 0 0
+	up 0.0 0.0 1.0
+	projection 1
+	angle_x 40
+	angle_y 30
+}
+picture_size {
+	x_max 400
+	y_max 300
+}
+
+end

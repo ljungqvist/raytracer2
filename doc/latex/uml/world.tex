@@ -1,0 +1,168 @@
+
+\begin{emp}[classdiag](0,0)
+
+	iClass.foreColor := (1, 1, 1);
+	iAbstractClass.foreColor := (1, 1, 1);
+	iClass.iName.iFont.scale := .8;
+	iClass.iAttributeStack.iPict.iFont.scale := .8;
+	iClass.iMethodStack.iPict.iFont.scale := .8;
+	iAbstractClass.iName.iFont.scale := .8;
+	iAbstractClass.iAttributeStack.iPict.iFont.scale := .8;
+	iAbstractClass.iMethodStack.iPict.iFont.scale := .8;
+	
+	Class.World("World")
+		(
+			"-static inst:World*",
+			"-things:list<Thing*>",
+			"-lights:list<Light*>"
+		)(
+			"+static Instace(): World*",
+			"+addThing(thing:Thing*)",
+			"+removeThing(thing:Thing*)",
+			"+addLight(light:Light*)",
+			"+sendRay(ray:Ray,thing:Thing*):Colour",
+			"+worldColour(thing:Thing*,position:Vect&,normal:Vect&):Colour",
+			"+getThing(position:Vect&):Thing*",
+			"+Release()"
+		);
+		classStereotypes.World("<<singleton>>");
+		
+% 	Class.Pict("Picture")
+% 		(
+% 			"-camera:Camera",
+% 			"-picture:PictureData"
+% 		)(
+% 			"+Picture()",
+% 			"+capture():PictureData",
+% 			"+getPicture():PictureData"
+% 		);
+
+	AbstractClass.Li("Light")
+		()(
+			"+virtual illumination(position:Vect&):LightRay",
+			"+virtual getPosition():Vect",
+			"+virtual addToWorld()"
+		);
+		
+	Class.SpLi("some Lights")
+		(	
+			"-properties"
+		)(
+			"+Lights()",
+			"+illumination(position:position:Vect&):LightRay",
+			"+getPosition():Vect",
+			"+addToWorld()"
+		);
+		
+	AbstractClass.Thing("Thing")
+		(
+		)(
+			"+~Thing()",
+			"+virtual checkRay(ray:Ray&,max:lu):lu",
+			"+checkRay(ray:Ray&):lu",
+			"+virtual checkInnerRay(ray:Ray&):lu",
+			"+virtual getMaterial(ray:Ray&):Material",
+			"+virtual getMaterial(position:Vect&):Material",
+			"+virtual getColour(ray:Ray&):Colour",
+			"+virtual getColour(position:Vect&):Colour",
+			"+virtual getNormal(position:Vect&):Vect",
+			"+virtual wraps(position:Vect&):bool",
+			"+virtual onSurfice(position:Vect&):bool"
+		);
+		
+	Class.Things("some Things")
+		(
+			"-properties"
+		)(
+			"+Things(properties)",
+			"+checkRay(ray:Ray&,max:lu):lu",
+			"+checkInnerRay(ray:Ray&):lu",
+			"+getMaterial(ray:Ray&):Material",
+			"+getMaterial(position:Vect&):Material",
+			"+getColour(ray:Ray&):Colour",
+			"+getColour(position:Vect&):Colour",
+			"+getNormal(position:Vect&):Vect",
+			"+wraps(position:Vect&):bool",
+			"+onSurfice(position:Vect&):bool"
+		);
+		
+	AbstractClass.SThing("SimpleThing")
+		(
+			"-material:Material"
+		)(
+			"+SimpleThing(mat:Material)",
+			"+getMaterial(ray:Ray&):Material",
+			"+getMaterial(position:Vect&):Material",
+			"+getColour(ray:Ray&):Colour",
+			"+getColour(position:Vect&):Colour"
+		);
+		
+	Class.Sph("some SimpleThings")
+		(
+			"-properties"
+		)(
+			"+SimpleThings(properties)",
+			"+checkRay(ray:Ray&,max:lu):lu",
+			"+checkInnerRay(ray:Ray&):lu",
+			"+getNormal(position:Vect&):Vect",
+			"+wraps(position:Vect&):bool",
+			"+onSurfice(position:Vect&):bool"
+		);
+		
+% 	Class.Tetra("Tetrahedron")
+% 		(
+% 			"-p[4]:Position",
+% 			"-planes[4]:pair<Position,Position>"
+% 		)(
+% 			"+Tetrahedron(a:Position,b:Position,c:Position,d:Position)",
+% 			"+checkRay(ray:Ray,max:lu):lu",
+% 			"-getNormal(ray:Ray):Position"
+% 		);
+	
+	Class.csg("CSG")
+		(
+			"-left:SimpleThing*",
+			"-right:SimpleThing*",
+			"-binOp:char"
+		)(
+			"+CSG(mat:Material)",
+			"+CSG(mat:Material,l:SimpleThing*,b:char,r:SimpleThing)",
+			"+~CSG()",
+			"+setLeft(thing:SimpleThing)",
+			"+setRight(thing:SimpleThing)",
+			"+setBinOp(b:char)",
+			"+checkRay(ray:Ray&,max:lu):lu",
+			"+checkInnerRay(ray:Ray&):lu",
+			"+getNormal(position:Vect&):Vect",
+			"+wraps(position:Vect&):bool",
+			"+onSurfice(position:Vect&):bool"
+		);
+		
+% 	Pict.s = World.n + (0, 20);
+	Li.nw = World.ne + (20, 0);
+	SpLi.nw = Li.sw + (0, -20);
+	Thing.nw = World.sw + (0, -20);
+	SThing.n = Thing.s - (0, 20);
+	csg.nw = SThing.ne + (40, 0);
+	Sph.n = SThing.s - (0, 20);
+	Things.nw = Thing.ne + (40, 0);
+%	csg.top = (Things.bottom - 20);
+% 	Tetra.nw = Sph.ne + (10, 0);
+	drawObjects(World, Li, SpLi, Thing, SThing, Sph, csg, Things);
+	
+
+	link(dependency)(pathVertical(World.s, Thing.top));
+ 	link(inheritance)(SThing.n -- Thing.s);
+ 	link(inheritance)(Sph.n -- SThing.s);
+ 	link(dependency)(rpathHorizontal(Li.w, World.right));
+ 	link(inheritance)(rpathVertical(Li.s, SpLi.top));
+ 	link(aggregationUni)(pathHorizontal(SThing.e, csg.left));
+ 	link(inheritance)(pathHorizontal(Things.w, Thing.right));
+	
+	
+%	link(aggregation)(pathStepX(.5[World.nw, World.n], .5[World.n, World.ne], 20));
+%	link(association)(Pict.s -- World.n);
+%	link(inheritance)(.5[Tetra.n, Tetra.nw] -- .5[SThing.s, SThing.se]);
+
+\end{emp}
+

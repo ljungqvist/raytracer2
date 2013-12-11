@@ -1,0 +1,107 @@
+
+\begin{emp}[classdiag](0,0)
+
+	iClass.foreColor := (1, 1, 1);
+	iAbstractClass.foreColor := (1, 1, 1);
+	iClass.iName.iFont.scale := .8;
+	iClass.iAttributeStack.iPict.iFont.scale := .8;
+	iClass.iMethodStack.iPict.iFont.scale := .8;
+	iAbstractClass.iName.iFont.scale := .8;
+	iAbstractClass.iAttributeStack.iPict.iFont.scale := .8;
+	iAbstractClass.iMethodStack.iPict.iFont.scale := .8;
+	
+	Class.Col("Colour")
+		(
+			"-R:size_t",
+			"-G:size_t",
+			"-B:size_t"
+		)(
+			"+Colour(R:size_t,G:size_t,B:size_t)",
+			"+Colour(c:Colour)",
+			"+operator=(c:Colour):Colour",
+			"+operator+(c:Colour):Colour",
+			"+operator-(c:Colour):Colour",
+			"+operator*(c:Colour):Colour",
+			"-Colour()"
+		);
+		
+	Class.Cam("Camera")
+		(
+			"+pos:Position",
+			"+centre:Position",
+			"+up:Position",
+			"+projection:char",
+			"+angle_x:float",
+			"+angle_y:float"
+		)();
+		classStereotypes.Cam("<<struct>>");
+		Cam.info.iMethodStack.top := 0;
+		Cam.info.iMethodStack.bottom := 0;
+		
+	Class.PD("PictureData")
+		(
+			"-res_x:size_t",
+			"-res_y:size_t",
+			"-data:vector<vector<Colour>>"
+		)(
+			"+PictureData()"
+		);
+		
+	Class.lu("lu")
+		(
+			"float"
+		)();
+		classStereotypes.lu("<<typedef>>");
+		lu.info.iMethodStack.top := 0;
+		lu.info.iMethodStack.bottom := 0;
+		
+	Class.Pos("Position")
+		(
+			"+x:lu",
+			"+y:lu",
+			"+z:lu"
+		)();
+		classStereotypes.Pos("<<struct>>");
+		Pos.info.iMethodStack.top := 0;
+		Pos.info.iMethodStack.bottom := 0;
+		
+	Class.Mat("Material")
+		(
+			"-reflection:float",
+			"-refraction:float",
+			"-absorbtion:float",
+			"-tanslu:float",
+			"-col:Colour"
+		)(
+			"+Material()"
+		);
+		
+	Class.Ray("Ray")
+		(
+			"+orgin:Position",
+			"+diretion:Position"
+		)();
+		classStereotypes.Ray("<<struct>>");
+		Ray.info.iMethodStack.top := 0;
+		Ray.info.iMethodStack.bottom := 0;
+		
+	Class.LRay("LightRay")
+		(
+			"+ray:Ray",
+			"+cal:Colour"
+		)();
+		classStereotypes.LRay("<<struct>>");
+		LRay.info.iMethodStack.top := 0;
+		LRay.info.iMethodStack.bottom := 0;
+
+	Mat.nw = Col.ne + (20, 0);
+	Cam.nw = Mat.ne + (20, 0);
+	PD.nw = Col.sw - (0, 20);
+	Pos.nw = Mat.sw - (0, 20);
+	lu.nw = Pos.ne + (20, 0);
+	Ray.nw = Pos.sw - (0, 20);
+	LRay.nw = Ray.ne + (20, 0);
+	drawObjects(Col, Cam, PD, Pos, lu, Mat, Ray, LRay);
+
+\end{emp}
+

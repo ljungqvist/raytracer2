@@ -1,0 +1,12 @@
+
+\section{Known bugs}
+
+%	In this chapter you must tell all known bugs in your code. You must also tell what could have been done better.
+
+
+%	If the assistant finds bug(s) in your code that you haven't mentioned, it is very bad thing and your points will be decreased. And if your code segfaults, it is even worse and your points will be decreased more...
+
+	\begin{itemize}
+		\item The ray tracer isn't counting reflections, so there is a possibility of infinite reflections (e.g. a CSG of a sphere and a smaller complement inside it). This is not hard to fix, has just not been done.
+		\item The ThingPlane (created with \texttt{plane} in the \texttt{special\_thing} environment) is onesided. So it works poorly as a transparent surface. (Not actually a bug.)
+	\end{itemize}

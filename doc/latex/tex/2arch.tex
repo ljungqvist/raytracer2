@@ -1,0 +1,24 @@
+
+	
+\section{Program architechture}
+
+%	\emph{In this chapter you must describe the main architechture of your program. You \emph{must draw} clear diagrams of your program structure. You don't need to go in to the details, but this chapter should give the reader the idea of the architechture of your program. You must also tell, why you decided to use the architechture you used.}
+	
+	The project is built up of three main parts; a 3D-world, a rendering control and a input file reader.
+	
+	\subsection{World}
+
+		The base of the architecture is a singleton class called \textbf{World}. World contains everything in the 3D-world. The abstract objects present in the world are called Thing and Light. The actual act of ray tracing happens in World as well. This means that the World doesn't need to be rebuilt for capturing an image from another position.
+
+		The abstract class \textbf{Thing} is inherited from all objects which can be seen in the finale picture. The way they are seen depends on everything else (and itself) present in the world. The other type of objects that influence picture inherit the abstract class \textbf{Light}. Lights do not actually appear in the picture, they just contribute with light. Though the Lights aren't seen they can add some kind of Thing to World when they are created.
+
+		Thing has a subclass called \textbf{SimpleThing} that is also a abstract class. SimpleThings are built up of only one material and colour. They can be combined in different manners with a subclass of SimpleThing called \textbf{CSG} (Combined Solid Geometry). That means that a CSG can be used in another CSG.
+
+		A small UML-diagram of the world can be found in appendix \ref{f:world}.
+
+	\subsection{Picture}
+		The class \textbf{Picture} handles the capturing of the picture. It positions the camera, builds the raster and controls the rendering of the image. Picture is independent of the world it is possible to render different kinds of pictures.
+
+	\subsection{Scene File}
+		The scene file is read by the function FileReading::read(istraem file)and is described in appendix \ref{fileReading}.
+

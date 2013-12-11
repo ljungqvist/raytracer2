@@ -11,3 +11,26 @@
 *.lai
 *.la
 *.a
+
+# temp
+*~
+
+# binary
+raytracer
+
+# pics
+*.ppm
+
+# pdfLaTeX
+*.1
+*.2
+*.aux
+*.bbl
+*.blg
+*.log
+*.mp
+*.out
+*.toc
+*.backup
+raytracer_doc.pdf
+

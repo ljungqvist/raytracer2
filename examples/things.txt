@@ -1,0 +1,178 @@
+// Scene file for Ray Tracer
+
+thing {
+	
+	sphere {
+		material {
+			reflection 0.2
+			refraction 0.8
+			scattering 0.0
+			translusans 0.9
+			refractive_index 1.1 // Obs måste ha understreck mellan orden
+			colour 0.7 0.7 1
+		} position 2.2 -0.1 -0.2
+		radius 0.9
+	} // end of sphere 2
+	
+	sphere {
+		material {
+			reflection 0.6
+			refraction 0.0
+			scattering 0.4
+			translusans 0.0
+			refractive_index 1.1 // Obs måste ha understreck mellan orden
+			colour 0 1 0
+		} position 6 1 -1
+		radius 1.0
+	} // end of sphere 3
+	
+	sphere {
+		material {
+			reflection 0.6
+			refraction 0.0
+			scattering 0.4
+			translusans 0.0
+			refractive_index 0.0 // Obs måste ha understreck mellan orden
+			colour 0 0 1
+		} position 6.5 1 1
+		radius 1.0
+	} // end of sphere 4
+	
+	sphere {
+		material {
+			reflection 0.6
+			refraction 0.0
+			scattering 0.4
+			translusans 0.0
+			refractive_index 0.0 // Obs måste ha understreck mellan orden
+			colour 1 1 0
+		} position 7 -1 1
+		radius 1.0
+	} // end of sphere 5
+	
+	
+	sphere {
+		material {
+			reflection 0.6
+			refraction 0.0
+			scattering 0.4
+			translusans 0.0
+			refractive_index 0.0 // Obs måste ha understreck mellan orden
+			colour 1 0 1
+		} position 7.5 -1 -1
+		radius 1.0
+	} // end of sphere 6
+	
+	
+	
+
+	
+	constructive_solid_geometry {
+		left {
+			sphere {
+				position 3.5 1 1.4
+				radius 1.0
+			}
+			
+		} // end of left
+		right {
+			sphere {
+				position 3.3 0.2 0.7
+				radius 1.2
+			}	
+		} // end of right
+		material {
+			reflection 0.6
+			refraction 0.0
+			scattering 0.4
+			translusans 0.0
+			refractive_index 0.0 // Obs måste ha understreck mellan orden
+			colour 1 1 1
+		}
+		type C // 'U': union (default), 'I': intersection, 'C': complement
+	} // end of csg 2
+	
+	constructive_solid_geometry {
+		left {
+			sphere {
+				position 4 -1 1.4
+				radius 1.0
+			}
+			
+		} // end of left
+		right {
+			tetrahedron {
+				// position 3.3 0.2 0.7
+				vect1 4 -1 1.4
+				vect2 3.0 -2 1.7
+				vect3 3.3 -0.3  0 // 1.9
+				vect4 3.1 -0.1 -0.3 // 0
+			}	
+		} // end of right
+		material {
+			reflection 0.7
+			refraction 0.0
+			scattering 0.3
+			translusans 0.0
+			refractive_index 0.0 // Obs måste ha understreck mellan orden
+			colour 0 1 1
+		}
+		type C // 'U': union (default), 'I': intersection, 'C': complement
+	} // end of csg 3
+	
+	
+	tetrahedron {
+		material {
+			reflection 0.6
+			refraction 0.0
+			scattering 0.4
+			translusans 0.0
+			refractive_index 0.0 // Obs måste ha understreck mellan orden
+			colour 1 0 0
+		}
+		vect1 1.9 -0.7 -1.4
+		vect2 4.5 0.5 -1.8
+		vect3 5.0 -2.9 -.9
+		vect4 4.7 -1.9 -3.9
+		
+		
+	} // end of tetrahedron 1
+} // end of Thing section
+
+light {
+	lamp {
+		colour 300 200 200
+		position 0 -5 10
+		size 2
+	}
+	lamp {
+		colour 50 100 50
+		position -5.0000 -2.5000 -6.0000
+		size 2
+	}
+	spotlight {
+		colour 30 30 30
+		position 10.0000 35.000 16.0000
+	}
+
+}
+
+// Testar kommentarer: det fungerar.
+
+// Camera: projection = 1 -> projection on a sphere surfase
+// Camera: projection != 1 -> projection on cartestian coodinate system
+
+camera {
+	position -100 -100 -100
+	centre 1.07 1.03 1.03
+	up 0.0 0.0 1.0
+	projection 2
+	angle_x 5
+	angle_y 3
+}
+picture_size {
+	x_max 400
+	y_max 300
+}
+
+end

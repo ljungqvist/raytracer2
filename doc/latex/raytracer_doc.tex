@@ -1,0 +1,120 @@
+\documentclass[a4paper,titlepage]{article}
+
+\usepackage{emp}
+%\usepackage{cite}
+\usepackage[pdftex]{graphicx}
+\usepackage[english]{babel}
+\usepackage[pdftex]{hyperref} %last
+
+\DeclareGraphicsRule{*}{mps}{*}{}
+
+%references setup
+\hypersetup{colorlinks,
+linkcolor=black,
+citecolor=black,
+filecolor=black,
+urlcolor=black,
+pdfauthor={Petter Ljungqvist}
+}
+
+% wide fields
+\newenvironment{narrow}[2]{%
+\begin{list}{}{%
+\setlength{\topsep}{0pt}%
+\setlength{\leftmargin}{#1}%
+\setlength{\rightmargin}{#2}%
+\setlength{\listparindent}{\parindent}%
+\setlength{\itemindent}{\parindent}%
+\setlength{\parsep}{\parskip}}%
+\item[]}{\end{list}}
+
+%\numberwithin{equation}{section}
+
+\title{raytracer2}
+\author{
+	Petter Ljungqvist \and
+	Hilkka Tamminen \and
+	Anni Toppila}
+\date{Last updated: \today}
+
+\begin{document}
+	\begin{empfile}
+		\begin{empcmds}
+			input metauml;
+		\end{empcmds}
+	
+		\pagenumbering{alph}
+		
+		\maketitle
+		
+		\newpage
+%\begin{fullwidth}
+~\vfill
+\thispagestyle{empty}
+{\parindent0pt
+\parskip15pt
+%\setlength{\parindent}{0pt}
+%\setlength{\parskip}{\baselineskip}
+Copyright \copyright\ 2011--\the\year\ 
+	{Petter Ljungqvist,
+	Hilkka Tamminen,
+	Anni Toppila}
+
+\par Licensed under the Apache License, Version 2.0 (the "License");
+   you may not use this file except in compliance with the License.
+   You may obtain a copy of the License at
+
+\hspace{15mm}\url{http://www.apache.org/licenses/LICENSE-2.0}. 
+
+Unless required by applicable law or agreed to in writing, software
+   distributed under the License is distributed on an \textsc{"as is" basis,
+   without warranties or conditions of any kind}, either express or implied.
+   See the License for the specific language governing permissions and
+   limitations under the License.
+}
+
+%\end{fullwidth}
+		
+		\input{tex/0abstract}
+		
+		\tableofcontents
+		\addcontentsline{toc}{section}{Contents}
+		
+		\pagenumbering{arabic}
+		\clearpage
+		
+
+		\input{tex/1instructions}
+		\input{tex/2arch}
+		\input{tex/3dataSaA}
+		\input{tex/4bugs}
+		\input{tex/5taskSaS}
+		\input{tex/6diffToPlan}
+	
+		\clearpage
+		\pagenumbering{roman}
+		\appendix
+		
+		\input{tex/7ref}
+
+		\input{tex/A_scene}
+		
+		%\clearpage
+		
+			\begin{figure}
+				\section{World UML-diagram} 
+				\label{f:world}
+				\begin{narrow}{-40pt}{-40pt}
+					\centering
+					\input{uml/world}
+				\end{narrow}
+			\end{figure}
+			
+		% 	\begin{figure}
+		% 		\centering
+		% 		\input{uml/structs}
+		% 		\caption{Structs \label{f:struct}}
+		% 	\end{figure}
+		
+	\end{empfile}
+\end{document}

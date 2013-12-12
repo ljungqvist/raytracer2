@@ -243,7 +243,7 @@ Thing* FindCSG(std::istream& file) {
 
 Thing* FindThing(std::istream& file, std::string word) {
 	std::string comment;
-	Thing* thing;
+	Thing* thing = NULL;
 	if (word.compare("sphere") == 0) {
 		try { thing = FindSphere(file); }
 		catch (FileReading::exception& e) { throw; }
@@ -422,7 +422,7 @@ Thing* FindChessPlane(std::istream& file) {
 
 Thing* FindSpecialThing(std::istream& file, std::string word) {
 	std::string comment;
-	Thing* thing;
+	Thing* thing = NULL;
 	if (word == FileReading::COMMENT) {
 		getline(file, comment); // för att hoppa till en ny linje
 	} else if (word.compare("plane") == 0) {

@@ -15,6 +15,7 @@
 # temp
 *~
 .DS_Store
+*.swp
 
 # binary
 raytracer

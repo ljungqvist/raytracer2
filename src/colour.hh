@@ -3,6 +3,7 @@
 
 #include <algorithm>
 #include <string>
+#include <cmath>
 
 class Colour {
 	

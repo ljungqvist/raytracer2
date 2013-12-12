@@ -1,6 +1,6 @@
 
 #include "matrix.hh"
-
+#include <cmath>
 // #include <iostream> // debug
 
 Matrix::Matrix() { Init(); }
